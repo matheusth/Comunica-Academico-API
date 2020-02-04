@@ -2,8 +2,9 @@ import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import Group from '../app/models/Group';
+import Message from '../app/models/Message';
 
-const models = [User, Group];
+const models = [User, Group, Message];
 
 class Database {
   constructor() {

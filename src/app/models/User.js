@@ -27,6 +27,8 @@ class User extends Model {
 
   static associate(models) {
     this.belongsTo(models.Group, { foreignKey: 'group_id' });
+    this.hasMany(models.Message, { foreignKey: 'sender', as: 'sender' });
+    this.hasMany(models.Message, { foreignKey: 'receiver', as: 'receiver' });
   }
 }
 export default User;
