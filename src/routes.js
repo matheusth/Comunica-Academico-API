@@ -19,4 +19,5 @@ routes.use(authorization);
 routes.put('/users', userController.update);
 routes.post('/groups', groupController.store);
 routes.post('/message', MessageController.store);
+routes.get('/messages', MessageController.fetchReceived);
 export default routes;

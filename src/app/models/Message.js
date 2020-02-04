@@ -12,8 +12,8 @@ class Message extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'sender', as: 'sender' });
-    this.belongsTo(models.User, { foreignKey: 'receiver', as: 'receiver' });
+    this.belongsTo(models.User, { foreignKey: 'sender', as: 'senderUser' });
+    this.belongsTo(models.User, { foreignKey: 'receiver', as: 'receiverUser' });
   }
 }
 export default Message;
