@@ -38,12 +38,39 @@ class UserController {
   }
 
   async update(req, res) {
+    const schema = yup.object().shape({
+      name: yup.string(),
+      email: yup.string().email(),
+      password: yup.string().min(8),
+      oldPassword: yup
+        .string()
+        .when(['password', 'email'], (password, email, field) =>
+          password || email ? field.required() : field,
+        ),
+    });
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ errorCode: -7, errorMessage: 'Invalid request' });
+    }
+    if (req.body.id) {
+      return res
+        .status(400)
+        .json({ errorCode: -7, errorMessage: 'Invalid request' });
+    }
     const user = await User.findOne({
       where: { id: req.userId },
       include: Group,
     });
+    const { oldPassword } = req.body;
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.json({
+        errorCode: -2,
+        errorMessage: 'Password does not match',
+      });
+    }
     user.update(req.body);
-    res.json({ user });
+    return res.json({ user });
   }
 }
 export default new UserController();
